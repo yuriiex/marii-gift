@@ -5,276 +5,342 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Dancing+Script:wght@700&family=Short+Stack&display=swap');
-    
-    body {
-      background: #FFEEF2;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Short Stack', cursive;
-      text-align: center;
-      padding: 20px;
-      overflow: auto;
-      position: relative;
-      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path fill='%23FF6B9E' d='M16 28C9.372 28 4 22.628 4 16S9.372 4 16 4s12 5.372 12 12-5.372 12-12 12zm0-2c5.523 0 10-4.477 10-10S21.523 6 16 6 6 10.477 6 16s4.477 10 10 10z'/><path fill='%23FF6B9E' d='M16 24c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z'/></svg>"), auto;
-    }
+   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Dancing+Script:wght@700&family=Short+Stack&display=swap');
 
-    /* Floating elements container - now in background */
-    #floating-elements {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1; /* Behind all content */
-      overflow: hidden;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    /* Card styles */
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      max-width: 500px;
-      width: 100%;
-      margin: 20px 0;
-      border: 3px solid #FFB6C1;
-      position: relative;
-      z-index: 10; /* Above background */
-    }
+body {
+    background: #FFEEF2;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'Short Stack', cursive;
+    text-align: center;
+    padding: clamp(15px, 4vw, 30px);
+    overflow: auto;
+    position: relative;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path fill='%23FF6B9E' d='M16 28C9.372 28 4 22.628 4 16S9.372 4 16 4s12 5.372 12 12-5.372 12-12 12zm0-2c5.523 0 10-4.477 10-10S21.523 6 16 6 6 10.477 6 16s4.477 10 10 10z'/><path fill='%23FF6B9E' d='M16 24c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z'/></svg>"), auto;
+}
 
-    .image {
-      width: 100%;
-      max-height: 300px;
-      object-fit: contain;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      border: 2px solid #FFD1DC;
-    }
+/* Floating elements container - now in background */
+#floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
 
-    .title {
-      font-family: 'Dancing Script', cursive;
-      color: #FF6B9E;
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.4);
-    }
+/* Card styles */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: clamp(20px, 5vw, 30px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    width: 95%;
+    max-width: 500px;
+    margin: 15px 0;
+    border: 3px solid #FFB6C1;
+    position: relative;
+    z-index: 10;
+}
 
-    .text {
-      color: #FF6B9E;
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
+.image {
+    width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #FFD1DC;
+}
 
+.title {
+    font-family: 'Dancing Script', cursive;
+    color: #FF6B9E;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    margin-bottom: 12px;
+    text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.4);
+    line-height: 1.2;
+}
+
+.text {
+    color: #FF6B9E;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+@media (min-width: 480px) {
     .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
+        flex-direction: row;
+        justify-content: center;
     }
+}
 
-    .button {
-      background: #FF6B9E;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 50px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Short Stack', cursive;
-    }
+.button {
+    background: #FF6B9E;
+    color: white;
+    border: none;
+    padding: clamp(10px, 3vw, 12px) clamp(20px, 5vw, 25px);
+    border-radius: 50px;
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Short Stack', cursive;
+    width: 100%;
+    max-width: 200px;
+}
 
-    #yes {
-      animation: heartbeat 1.5s infinite;
-    }
+#yes {
+    animation: heartbeat 1.5s infinite;
+}
 
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 0 #D94D7A;
-    }
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 #D94D7A;
+}
 
-    .button-no {
-      background: #FFD166;
-      color: #FF6B9E;
-    }
+.button-no {
+    background: #FFD166;
+    color: #FF6B9E;
+}
 
-    .hidden {
-      display: none;
-    }
+.hidden {
+    display: none;
+}
 
-    /* Ultra Romantic Letter Styling */
+/* Ultra Romantic Letter Styling */
+.letter {
+    background: white;
+    padding: clamp(25px, 6vw, 50px) clamp(20px, 5vw, 45px);
+    border-radius: 15px;
+    width: 95%;
+    max-width: 500px;
+    min-height: auto;
+    margin: 15px auto;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    line-height: 1.8;
+    color: #555;
+    border: 2px dashed #FFB6C1;
+    position: relative;
+    z-index: 10;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2);
+    background-image: linear-gradient(to bottom, #FFF5F9 0%, white 20%), url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 30C40 10 10 15 10 40c0 25 40 50 40 50s40-25 40-50c0-25-30-30-40-10z' fill='%23FFEEF2' opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 100% 100%, 80px 80px;
+}
+
+.letter:hover {
+    box-shadow: 0 0 15px rgba(255,105,180,0.5), 0 0 30px rgba(255,214,102,0.4), 0 0 45px rgba(255,238,242,0.3);
+    transition: all 0.5s ease;
+}
+
+.letter-content {
+    margin-bottom: 30px;
+    letter-spacing: 0.4px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+}
+
+.letter p {
+    margin-bottom: 1.4em;
+    text-align: left;
+    hyphens: auto;
+    text-shadow: 0.3px 0.3px 0.6px rgba(0,0,0,0.08);
+}
+
+.letter .title {
+    font-family: 'Dancing Script', cursive;
+    color: #FF6B9E;
+    font-size: clamp(2.2rem, 9vw, 3.2rem);
+    margin-bottom: 25px;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(255, 182, 193, 0.4);
+    letter-spacing: 1px;
+}
+
+.signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    color: #FF6B9E;
+    text-align: right;
+    margin-top: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.heart-divider {
+    text-align: center;
+    margin: 25px 0;
+    color: #FF6B9E;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    opacity: 0.6;
+    letter-spacing: 5px;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 1px 1px 3px rgba(255, 182, 193, 0.4);
+}
+
+.heart {
+    color: #FF6B9E;
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+    text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.4);
+}
+
+/* Animations */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float-up {
+    0% { transform: translateY(0) scale(0.8); opacity: 1; }
+    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+}
+
+@keyframes float-down {
+    to { transform: translateY(100vh) rotate(360deg); }
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Floating elements */
+.floating-heart {
+    position: absolute;
+    pointer-events: none;
+    font-size: clamp(16px, 4vw, 20px);
+    animation: float-up 1.5s ease-out forwards;
+    z-index: -1;
+}
+
+.petal {
+    position: absolute;
+    animation: float-down linear infinite;
+    opacity: 0.7;
+    z-index: -1;
+    font-size: clamp(20px, 5vw, 30px);
+}
+
+.confetti {
+    position: fixed;
+    border-radius: 50%;
+    animation: fall linear forwards;
+    z-index: -1;
+}
+
+/* Password Screen Styles */
+.password-dot {
+    width: clamp(12px, 4vw, 16px);
+    height: clamp(12px, 4vw, 16px);
+    border-radius: 50%;
+    background: #FFB6C1;
+    border: 2px solid #FF8FAB;
+}
+
+.password-dot.filled {
+    background: #FF6B9E;
+    transform: scale(1.1);
+    transition: all 0.3s;
+}
+
+.keypad-btn {
+    background: #FFEEF2;
+    border: 2px solid #FFB6C1;
+    border-radius: 50%;
+    width: clamp(45px, 12vw, 55px);
+    height: clamp(45px, 12vw, 55px);
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    color: #FF6B9E;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Short Stack', cursive;
+    box-shadow: 0 3px 0 #FF8FAB;
+}
+
+.keypad-btn:active {
+    transform: translateY(3px);
+    box-shadow: none;
+}
+
+.keypad-btn:hover {
+    background: #FFD1DC;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 250px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Media Queries */
+@media (max-width: 480px) {
     .letter {
-      background: white;
-      padding: 50px 45px;
-      border-radius: 15px;
-      max-width: 500px;
-      width: 100%;
-      min-height: 700px;
-      margin: 20px auto;
-      font-family: 'Playfair Display', serif;
-      font-weight: 500;
-      font-size: 1.2rem;
-      line-height: 2.1;
-      color: #555;
-      border: 2px dashed #FFB6C1;
-      position: relative;
-      z-index: 10; /* Above background */
-      text-align: left;
-      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2);
-      background-image: 
-        linear-gradient(to bottom, #FFF5F9 0%, white 20%),
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 30C40 10 10 15 10 40c0 25 40 50 40 50s40-25 40-50c0-25-30-30-40-10z' fill='%23FFEEF2' opacity='0.2'/%3E%3C/svg%3E");
-      background-size: 100% 100%, 80px 80px;
+        line-height: 1.6;
     }
-
-    .letter:hover {
-      box-shadow: 0 0 15px rgba(255,105,180,0.5),
-                  0 0 30px rgba(255,214,102,0.4),
-                  0 0 45px rgba(255,238,242,0.3);
-      transition: all 0.5s ease;
-    }
-
-    .letter-content {
-      margin-bottom: 40px;
-      letter-spacing: 0.4px;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: subpixel-antialiased;
-      -moz-osx-font-smoothing: auto;
-    }
-
-    .letter p {
-      margin-bottom: 1.6em;
-      text-align: left;
-      hyphens: auto;
-      text-shadow: 0.3px 0.3px 0.6px rgba(0,0,0,0.08);
-    }
-
-    .letter .title {
-      font-family: 'Dancing Script', cursive;
-      color: #FF6B9E;
-      font-size: 3.2rem;
-      margin-bottom: 35px;
-      text-align: center;
-      text-shadow: 2px 2px 5px rgba(255, 182, 193, 0.4);
-      letter-spacing: 2px;
-    }
-
+    
     .signature {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.5rem;
-      color: #FF6B9E;
-      text-align: right;
-      margin-top: 70px;
-      font-weight: 700;
-      line-height: 1.2;
+        margin-top: 30px;
     }
-
+    
     .heart-divider {
-      text-align: center;
-      margin: 40px 0;
-      color: #FF6B9E;
-      font-size: 2rem;
-      opacity: 0.6;
-      letter-spacing: 10px;
-      font-family: 'Dancing Script', cursive;
-      text-shadow: 1px 1px 3px rgba(255, 182, 193, 0.4);
+        letter-spacing: 3px;
+        margin: 20px 0;
     }
+}
 
-    .heart {
-      color: #FF6B9E;
-      font-size: 1.5rem;
-      text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.4);
+@media (min-width: 768px) {
+    body {
+        justify-content: center;
+        padding: 30px;
     }
-
-    /* Animations */
-    @keyframes heartbeat {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.1); }
-      50% { transform: scale(1); }
-      75% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    
+    .card {
+        margin: 20px 0;
     }
-
-    @keyframes float-up {
-      0% { transform: translateY(0) scale(0.8); opacity: 1; }
-      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    
+    .letter {
+        min-height: 700px;
     }
+}
 
-    @keyframes float-down {
-      to { transform: translateY(100vh) rotate(360deg); }
-    }
-
-    @keyframes fall {
-      to { transform: translateY(100vh) rotate(360deg); }
-    }
-
-    /* Floating elements - now with background z-index */
-    .floating-heart {
-      position: absolute;
-      pointer-events: none;
-      font-size: 20px;
-      animation: float-up 1.5s ease-out forwards;
-      z-index: -1; /* Behind content */
-    }
-
-    .petal {
-      position: absolute;
-      animation: float-down linear infinite;
-      opacity: 0.7;
-      z-index: -1; /* Behind content */
-    }
-
-    .confetti {
-      position: fixed;
-      border-radius: 50%;
-      animation: fall linear forwards;
-      z-index: -1; /* Behind content */
-    }
-
-    /* Password Screen Styles */
-    .password-dot {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #FFB6C1;
-      border: 2px solid #FF8FAB;
-    }
-
-    .password-dot.filled {
-      background: #FF6B9E;
-      transform: scale(1.1);
-      transition: all 0.3s;
-    }
-
+@media (max-width: 360px) {
     .keypad-btn {
-      background: #FFEEF2;
-      border: 2px solid #FFB6C1;
-      border-radius: 50%;
-      width: 55px;
-      height: 55px;
-      font-size: 1.4rem;
-      color: #FF6B9E;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'Short Stack', cursive;
-      box-shadow: 0 3px 0 #FF8FAB;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
-
-    .keypad-btn:active {
-      transform: translateY(3px);
-      box-shadow: none;
+    
+    .password-dot {
+        width: 10px;
+        height: 10px;
     }
-
-    .keypad-btn:hover {
-      background: #FFD1DC;
-    }
+}
   </style>
 </head>
 <body>
@@ -599,6 +665,7 @@
   </script>
 </body>
 </html>
+
 
 
 
