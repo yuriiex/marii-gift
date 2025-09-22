@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🦇 Wino Pet</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #FFD6E0 0%, #C1F0FF 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      overflow: hidden;
+      transition: background 0.5s ease;
+    }
+
+    .cloud {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.9;
+      filter: blur(2px);
+      z-index: 1;
+      animation: float 15s infinite linear;
+      transition: opacity 0.5s, background 0.5s;
+    }
+    
+    @keyframes float {
+      0% { transform: translateX(0) translateY(0); }
+      50% { transform: translateX(50px) translateY(-20px); }
+      100% { transform: translateX(0) translateY(0); }
+    }
+
+    .pet-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    .loader {
+      height: 90px;
+      width: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+      position: relative;
+    }
+
+    .dot-two {
+      background-color: #FFB8D1;
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 4px 0 #FF8FB1,
+                  inset 0 -6px 0 rgba(0,0,0,0.1);
+      animation: body-bounce 1s infinite ease-in-out;
+    }
+
+    .dot-two.shy::before {
+      content: " ˃ᗜ˂ ";
+      color: #FFB6C1 !important;
+    }
+    .dot-two.sleepy::before {
+      content: " ˃－˂ ";
+    }
+
+    .dot-two::before {
+      content: " ˃ᆺ˂ ";
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      font-size: 20px;
+      color: white;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+    }
+
+    .dot-two .ear {
+      position: absolute;
+      width: 14px;
+      height: 20px;
+      background: #FFB8D1;
+      top: -10px;
+      border-radius: 80% 80% 0 0;
+      box-shadow: 0 -3px 0 #FF8FB1;
+      z-index: -1;
+      filter: blur(0.5px);
+    }
+    .dot-two .ear.left {
+      left: 2px;
+      transform: rotate(-25deg);
+    }
+    .dot-two .ear.right {
+      right: 2px;
+      transform: rotate(25deg);
+    }
+
+    .dot-two .ear.left::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #FF6B8B;
+      top: 15px;
+      left: -4px;
+      border-radius: 50% 50% 50% 5px;
+      transform: rotate(-45deg);
+      box-shadow: 
+        0 2px 0 #E84A6D,
+        -2px 0 0 #E84A6D;
+    }
+
+    .dot-two .ear.left::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 8px;
+      background: #FF8FB1;
+      top: 10px;
+      left: -9px;
+      border-radius: 50%;
+      transform: rotate(-30deg);
+      z-index: -1;
+    }
+
+    .dot-two .ear.right::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #FF6B8B;
+      top: 15px;
+      right: -4px;
+      border-radius: 50% 50% 5px 50%;
+      transform: rotate(45deg);
+      box-shadow: 
+        0 2px 0 #E84A6D,
+        2px 0 0 #E84A6D;
+    }
+
+    .dot-two .ear.right::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 8px;
+      background: #FF8FB1;
+      top: 10px;
+      right: -9px;
+      border-radius: 50%;
+      transform: rotate(30deg);
+      z-index: -1;
+    }
+
+    .dot-two::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 5px;
+      background: #FF6B8B;
+      border-radius: 50%;
+      top: 40px;
+      left: 12px;
+      box-shadow: 26px 0 #FF6B8B;
+      opacity: 0.8;
+    }
+
+    .dot-one, .dot-three {
+      background-color: #FFB8D1;
+      height: 50px;
+      width: 35px;
+      border-radius: 50% 50% 0 0;
+      position: absolute;
+      top: 10px;
+      box-shadow: 0 4px 0 #FF8FB1;
+      animation: flap-wings 0.7s infinite ease-in-out;
+    }
+    .dot-one { left: -30px; transform-origin: right center; }
+    .dot-three { right: -30px; transform-origin: left center; animation-delay: 0.35s; }
+
+    .heart-particle {
+      position: absolute;
+      font-size: 12px;
+      color: #FF6B8B;
+      animation: float-up 1.5s forwards;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 25px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      z-index: 20;
+    }
+    .control-btn {
+      background: #FF6B8B;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #E84A6D,
+                  0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .control-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 #E84A6D,
+                  0 6px 10px rgba(0,0,0,0.15);
+    }
+
+    .outfit-buttons {
+      position: fixed;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      z-index: 20;
+    }
+    .outfit-btn {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #E84A6D,
+                  0 4px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      display: grid;
+      place-items: center;
+    }
+    .outfit-btn:hover {
+      transform: translateY(-3px) rotate(15deg);
+      box-shadow: 0 6px 0 #E84A6D,
+                  0 8px 12px rgba(0,0,0,0.15);
+    }
+    .outfit-btn.active {
+      background: #FF9EBC;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .dot-two .accessory {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 10;
+      filter: drop-shadow(0 2px 1px rgba(0,0,0,0.2));
+    }
+    .dot-two .accessory.left {
+      right: auto;
+      left: -15px;
+    }
+
+    body.night-mode {
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    }
+    body.night-mode .cloud {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+      z-index: 0;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      100% { opacity: 0.8; }
+    }
+
+    @keyframes body-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes flap-wings {
+      0%, 100% { transform: rotate(-15deg); }
+      50% { transform: rotate(25deg); }
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(0) scale(0.5); opacity: 0; }
+      50% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+      100% { transform: translateY(-60px) scale(0.2); opacity: 0; }
+    }
+
+    @keyframes fade {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Clouds -->
+  <div class="cloud" style="width:120px;height:70px;top:15%;left:10%;animation-duration:18s;"></div>
+  <div class="cloud" style="width:160px;height:90px;top:25%;right:15%;animation-duration:22s;"></div>
+  <div class="cloud" style="width:100px;height:60px;top:70%;left:20%;animation-duration:25s;"></div>
+  <div class="cloud" style="width:140px;height:80px;top:60%;right:25%;animation-duration:20s;"></div>
+
+  <!-- The Pet -->
+  <div class="pet-container" id="pet-container">
+    <div class="loader" id="draggable-pet">
+      <div class="dot-one"></div>
+      <div class="dot-two">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+      </div>
+      <div class="dot-three"></div>
+    </div>
+  </div>
+
+  <!-- Accessory Buttons -->
+  <div class="outfit-buttons">
+    <button class="outfit-btn" onclick="changeAccessory('🎀', 'left')">🎀</button>
+    <button class="outfit-btn" onclick="changeAccessory('🌸', 'right')">🌸</button>
+    <button class="outfit-btn" onclick="changeAccessory('👑', 'left')">👑</button>
+    <button class="outfit-btn" onclick="changeAccessory('🎩', 'right')">🎩</button>
+    <button class="outfit-btn" onclick="changeAccessory('✨', 'left')">✨</button>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="control-btn" onclick="toggleWings()">⏯️ Pause</button>
+    <button class="control-btn" onclick="resetPet()">🔄 Reset</button>
+    <button class="control-btn" onclick="toggleNightMode()">🌙 Night</button>
+  </div>
+
+  <script>
+
+    // Dragging
+    const petContainer = document.getElementById("pet-container");
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    petContainer.style.left = "50%";
+    petContainer.style.top = "50%";
+
+    petContainer.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      const rect = petContainer.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      petContainer.style.cursor = "grabbing";
+      e.preventDefault();
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      petContainer.style.cursor = "grab";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      
+      petContainer.style.left = `${e.clientX - offsetX}px`;
+      petContainer.style.top = `${e.clientY - offsetY}px`;
+      petContainer.style.transform = "none";
+      
+      // Create sparkles
+      const sparkle = document.createElement("div");
+      sparkle.style.cssText = `
+        position: absolute;
+        left: ${e.clientX}px;
+        top: ${e.clientY}px;
+        width: 6px;
+        height: 6px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: fade 1s forwards;
+      `;
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1000);
+    });
+
+    // Wings Control
+    let isPaused = false;
+    
+    function toggleWings() {
+      const wings = document.querySelectorAll('.dot-one, .dot-three');
+      isPaused = !isPaused;
+      wings.forEach(wing => {
+        wing.style.animationPlayState = isPaused ? 'paused' : 'running';
+      });
+      document.querySelector('.control-btn:nth-child(2)').innerHTML = 
+        isPaused ? "▶️ Play" : "⏯️ Pause";
+    }
+
+    function resetPet() {
+      petContainer.style.left = "50%";
+      petContainer.style.top = "50%";
+      petContainer.style.transform = "translate(-50%, -50%)";
+    }
+
+    // Heart Particles
+    document.getElementById("draggable-pet").addEventListener("click", (e) => {
+      if (!isDragging) {
+        // Sound effect
+        const audio = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YV...");
+        audio.volume = 0.3;
+        audio.play().catch(e => {});
+        
+        // Pet reaction
+        const pet = document.querySelector(".dot-two");
+        pet.classList.add("shy");
+        setTimeout(() => pet.classList.remove("shy"), 1000);
+        
+        // Hearts
+        for (let i = 0; i < 8; i++) {
+          setTimeout(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart-particle";
+            heart.innerHTML = ["♡", "✦", "☁️", "*"][Math.floor(Math.random() * 4)];
+            heart.style.left = `${e.clientX - 10 + Math.random() * 20}px`;
+            heart.style.top = `${e.clientY - 10 + Math.random() * 10}px`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1500);
+          }, i * 100);
+        }
+      }
+    });
+
+    // Accessory System
+    function changeAccessory(emoji, side) {
+      document.querySelectorAll('.accessory').forEach(el => el.remove());
+      
+      const accessory = document.createElement("div");
+      accessory.className = `accessory ${side}`;
+      accessory.textContent = emoji;
+      document.querySelector(".dot-two").appendChild(accessory);
+      
+      document.querySelectorAll('.outfit-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === emoji);
+      });
+    }
+
+    // Night Mode
+    function toggleNightMode() {
+      document.body.classList.toggle("night-mode");
+      const btn = document.querySelector('.control-btn:nth-child(4)');
+      btn.textContent = document.body.classList.contains("night-mode") ? "☀️ Day" : "🌙 Night";
+      
+      if (document.body.classList.contains("night-mode")) {
+        createStars();
+      } else {
+        document.querySelectorAll('.star').forEach(star => star.remove());
+      }
+    }
+
+    function createStars() {
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        star.style.cssText = `
+          width: ${Math.random() * 3 + 1}px;
+          height: ${Math.random() * 3 + 1}px;
+          left: ${Math.random() * 100}%;
+          top: ${Math.random() * 100}%;
+          animation-delay: ${Math.random() * 2}s;
+        `;
+        document.body.appendChild(star);
+      }
+    }
+
+    // Initialize
+    window.onload = () => {
+      changeAccessory('🎀', 'left');
+    };
+  </script>
+</body>
+</html>

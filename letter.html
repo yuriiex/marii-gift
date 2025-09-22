@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Happy Birthday Pookie!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Dancing+Script:wght@700&family=Short+Stack&display=swap');
+    
+    body {
+      background: #FFEEF2;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Short Stack', cursive;
+      text-align: center;
+      padding: 20px;
+      overflow: auto;
+      position: relative;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path fill='%23FF6B9E' d='M16 28C9.372 28 4 22.628 4 16S9.372 4 16 4s12 5.372 12 12-5.372 12-12 12zm0-2c5.523 0 10-4.477 10-10S21.523 6 16 6 6 10.477 6 16s4.477 10 10 10z'/><path fill='%23FF6B9E' d='M16 24c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z'/></svg>"), auto;
+    }
+
+    /* Floating elements container - now in background */
+    #floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1; /* Behind all content */
+      overflow: hidden;
+    }
+
+    /* Card styles */
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+      margin: 20px 0;
+      border: 3px solid #FFB6C1;
+      position: relative;
+      z-index: 10; /* Above background */
+    }
+
+    .image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 2px solid #FFD1DC;
+    }
+
+    .title {
+      font-family: 'Dancing Script', cursive;
+      color: #FF6B9E;
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.4);
+    }
+
+    .text {
+      color: #FF6B9E;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .button {
+      background: #FF6B9E;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Short Stack', cursive;
+    }
+
+    #yes {
+      animation: heartbeat 1.5s infinite;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #D94D7A;
+    }
+
+    .button-no {
+      background: #FFD166;
+      color: #FF6B9E;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Ultra Romantic Letter Styling */
+    .letter {
+      background: white;
+      padding: 50px 45px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      min-height: 700px;
+      margin: 20px auto;
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: 1.2rem;
+      line-height: 2.1;
+      color: #555;
+      border: 2px dashed #FFB6C1;
+      position: relative;
+      z-index: 10; /* Above background */
+      text-align: left;
+      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2);
+      background-image: 
+        linear-gradient(to bottom, #FFF5F9 0%, white 20%),
+        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 30C40 10 10 15 10 40c0 25 40 50 40 50s40-25 40-50c0-25-30-30-40-10z' fill='%23FFEEF2' opacity='0.2'/%3E%3C/svg%3E");
+      background-size: 100% 100%, 80px 80px;
+    }
+
+    .letter:hover {
+      box-shadow: 0 0 15px rgba(255,105,180,0.5),
+                  0 0 30px rgba(255,214,102,0.4),
+                  0 0 45px rgba(255,238,242,0.3);
+      transition: all 0.5s ease;
+    }
+
+    .letter-content {
+      margin-bottom: 40px;
+      letter-spacing: 0.4px;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+    }
+
+    .letter p {
+      margin-bottom: 1.6em;
+      text-align: left;
+      hyphens: auto;
+      text-shadow: 0.3px 0.3px 0.6px rgba(0,0,0,0.08);
+    }
+
+    .letter .title {
+      font-family: 'Dancing Script', cursive;
+      color: #FF6B9E;
+      font-size: 3.2rem;
+      margin-bottom: 35px;
+      text-align: center;
+      text-shadow: 2px 2px 5px rgba(255, 182, 193, 0.4);
+      letter-spacing: 2px;
+    }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: #FF6B9E;
+      text-align: right;
+      margin-top: 70px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .heart-divider {
+      text-align: center;
+      margin: 40px 0;
+      color: #FF6B9E;
+      font-size: 2rem;
+      opacity: 0.6;
+      letter-spacing: 10px;
+      font-family: 'Dancing Script', cursive;
+      text-shadow: 1px 1px 3px rgba(255, 182, 193, 0.4);
+    }
+
+    .heart {
+      color: #FF6B9E;
+      font-size: 1.5rem;
+      text-shadow: 1px 1px 2px rgba(255, 182, 193, 0.4);
+    }
+
+    /* Animations */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(0) scale(0.8); opacity: 1; }
+      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    }
+
+    @keyframes float-down {
+      to { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    @keyframes fall {
+      to { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    /* Floating elements - now with background z-index */
+    .floating-heart {
+      position: absolute;
+      pointer-events: none;
+      font-size: 20px;
+      animation: float-up 1.5s ease-out forwards;
+      z-index: -1; /* Behind content */
+    }
+
+    .petal {
+      position: absolute;
+      animation: float-down linear infinite;
+      opacity: 0.7;
+      z-index: -1; /* Behind content */
+    }
+
+    .confetti {
+      position: fixed;
+      border-radius: 50%;
+      animation: fall linear forwards;
+      z-index: -1; /* Behind content */
+    }
+
+    /* Password Screen Styles */
+    .password-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #FFB6C1;
+      border: 2px solid #FF8FAB;
+    }
+
+    .password-dot.filled {
+      background: #FF6B9E;
+      transform: scale(1.1);
+      transition: all 0.3s;
+    }
+
+    .keypad-btn {
+      background: #FFEEF2;
+      border: 2px solid #FFB6C1;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      font-size: 1.4rem;
+      color: #FF6B9E;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Short Stack', cursive;
+      box-shadow: 0 3px 0 #FF8FAB;
+    }
+
+    .keypad-btn:active {
+      transform: translateY(3px);
+      box-shadow: none;
+    }
+
+    .keypad-btn:hover {
+      background: #FFD1DC;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating elements container (background only) -->
+  <div id="floating-elements"></div>
+  
+  <!-- First Card -->
+  <div id="card1" class="card">
+    <img src="https://i.ibb.co/G3rhRtMR/here-s-a-letter-click-next.jpg" class="image" alt="Birthday">
+    <h1 class="title">Happy Birthday Pookie!</h1>
+    <p class="text">Click next to see your surprise~</p>
+    <button class="button" onclick="showCard2()">Next<3</button>
+  </div>
+
+  <!-- Second Card -->
+  <div id="card2" class="card hidden">
+    <img id="changeable-image" src="https://i.ibb.co/PvVPKQLM/letter.jpg" class="image" alt="Letter">
+    <h1 class="title">For My Pookie</h1>
+    <p id="message" class="text">Would you like to open my letter :3 ?</p>
+    <div class="buttons">
+      <button id="yes" class="button" onclick="showPasswordScreen()">Yes >< ! <span class="heart">❤</span></button>
+      <button id="no" class="button button-no" onclick="handleNo()">No </3<span class="heart">💔</span></button>
+    </div>
+  </div>
+
+  <!-- Password Screen -->
+  <div id="password-screen" class="card hidden">
+    <h1 class="title" style="font-family: 'Dancing Script', cursive; margin-bottom: 10px;">Enter Password to Open Your Letter</h1>
+    <p class="text" style="font-size: 1rem; color: #FF8FAB;">Spoiler: It's your birthday date<br>(Day/Month format)</p>
+    
+    <!-- Password dots -->
+    <div id="password-dots" style="display: flex; justify-content: center; gap: 15px; margin: 25px 0;">
+      <div class="password-dot"></div>
+      <div class="password-dot"></div>
+      <div class="password-dot"></div>
+      <div class="password-dot"></div>
+    </div>
+    
+    <!-- Keypad -->
+    <div class="keypad" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 250px; margin: 0 auto;">
+      <button class="keypad-btn" data-number="1">1</button>
+      <button class="keypad-btn" data-number="2">2</button>
+      <button class="keypad-btn" data-number="3">3</button>
+      <button class="keypad-btn" data-number="4">4</button>
+      <button class="keypad-btn" data-number="5">5</button>
+      <button class="keypad-btn" data-number="6">6</button>
+      <button class="keypad-btn" data-number="7">7</button>
+      <button class="keypad-btn" data-number="8">8</button>
+      <button class="keypad-btn" data-number="9">9</button>
+      <button class="keypad-btn" style="visibility: hidden;"></button>
+      <button class="keypad-btn" data-number="0">0</button>
+      <button class="keypad-btn" id="backspace-btn" style="background: #FFD166;">⌫</button>
+    </div>
+    
+    <p id="password-error" class="text" style="color: #FF6B6B; margin-top: 20px; display: none;">Wrong password! Try again ❤</p>
+  </div>
+
+  <!-- Romantic Letter -->
+  <div id="letter" class="letter hidden">
+    <h1 class="title">My Dearest Pookie <span class="heart">💌</span></h1>
+    
+    <div id="letter-content" class="letter-content"></div>
+    
+    <div class="signature">
+      With all of pikoe's professionality,<br>
+      <span style="font-size: 2.6rem;">Yasmine</span> <span class="heart">❤</span>
+    </div>
+  </div>
+
+  <!-- Background music (hidden) -->
+  <audio id="bgMusic" loop>
+    <source src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-291.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Letter content
+    const letterText = `
+      <p>Every day I spent with you was a cute gift. You know I'm not really good at expressing my feelings so I'll just say whatever comes to my mind...</p>
+      
+      <div class="heart-divider">♥ ♥ ♥</div>
+      
+      <p>First, I wish you a happy birthday, and this is my gift for you since you have a special place in my heart and I wasn't able to give you a physical gift.</p>
+      
+      <p>I hope you had and will have the best year of your life with the people you love, and I hope you achieve your dreams. Don't forget I'll be here whenever you need me - just say the word :)</p>
+      
+      <div class="heart-divider">♥ ♥ ♥</div>
+      
+      <p>However, I made you a small virtual pet and I don't know what to name it and idk what does it have to do with a birthday gift but i liked it hehe.</p>
+      
+      <div class="heart-divider">♥ ♥ ♥</div>
+    
+      <p>This took me like 2000 lines of coding, and I don't really know what to add next but I'll do my best (and u gotta accept whatever is it cuz my beginner ass doesn't know much abt coding yet) :)</p>
+      
+      <p>I hope this makes you smile on your birthday, just as I promised, Even if we can't be together, just know that someone cares about you deeply <3</p>
+      
+      <div class="heart-divider">♥ ♥ ♥</div>
+      
+      <p>Anyway, happy birthday my best friend. Have a good day! And a good year.</p>
+
+      <p>Lil spoiler, i'm so sorrrrrrrrrrryyyyyyyyyyy i didn't find another way to share the file with u like, all the methods i found where permanent or blocked some of the code, so i had to post it as website, and i made the password thing so the letter would stay private, (but who's gonna check this thing anyway) anyway anyway, caught myself yapping again TT</p>
+    `;
+
+    // Initialize
+    document.getElementById('letter-content').innerHTML = letterText;
+    createPetals();
+    
+    // Track current view
+    let currentView = 'card1';
+    let noCount = 0;
+    
+    // Password System (2707)
+    let passwordInput = '';
+    const CORRECT_PASSWORD = '2707';
+    
+    // Audio setup
+    const bgMusic = document.getElementById('bgMusic');
+    bgMusic.volume = 0.3;
+    
+    // Initialize the history state
+    window.history.replaceState({ view: 'card1' }, '', '#card1');
+    
+    // Handle back/forward navigation
+    window.addEventListener('popstate', function(event) {
+      if (event.state && event.state.view) {
+        showView(event.state.view);
+      }
+    });
+    
+    // Keyboard shortcut for Ctrl+Z
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.key === 'z') {
+        e.preventDefault();
+        window.history.back();
+      }
+    });
+
+    // Show specific view
+    function showView(viewName) {
+      // Hide all views first
+      document.getElementById('card1').classList.add('hidden');
+      document.getElementById('card2').classList.add('hidden');
+      document.getElementById('password-screen').classList.add('hidden');
+      document.getElementById('letter').classList.add('hidden');
+      
+      // Show the requested view
+      document.getElementById(viewName).classList.remove('hidden');
+      currentView = viewName;
+      
+      // If showing card2, reset the no button state
+      if (viewName === 'card2') {
+        resetNoButtonState();
+      }
+    }
+
+    // Reset the no button state
+    function resetNoButtonState() {
+      const yesBtn = document.getElementById('yes');
+      const noBtn = document.getElementById('no');
+      const image = document.getElementById('changeable-image');
+      const message = document.getElementById('message');
+      
+      noCount = 0;
+      yesBtn.style.transform = 'scale(1)';
+      noBtn.style.transform = 'scale(1)';
+      noBtn.style.display = '';
+      yesBtn.textContent = "Yes >< ! ❤";
+      message.textContent = "Would you like to open my letter :3 ?";
+      image.src = "https://i.ibb.co/PvVPKQLM/letter.jpg";
+    }
+
+    const angryImages = [
+      "https://i.ibb.co/Q3sjsDfY/first-angry-image.jpg",
+      "https://i.ibb.co/rKGYf0MR/angry-kitty-2.jpg",
+      "https://i.ibb.co/67FWr6qb/3rd-angry-one.jpg"
+    ];
+    const angryMessages = [
+      "Please open it? 😣",
+      "I'm getting upset! 😠",
+      "Just open it already! 😾"
+    ];
+
+    function showCard2() {
+      // Push new state to history
+      window.history.pushState({ view: 'card2' }, '', '#card2');
+      showView('card2');
+      
+      // Try to play music after user interaction
+      setupAudio();
+    }
+
+    function showPasswordScreen() {
+      // Push new state to history
+      window.history.pushState({ view: 'password-screen' }, '', '#password-screen');
+      showView('password-screen');
+      passwordInput = '';
+      updatePasswordDots();
+    }
+
+    function showLetter() {
+      // Push new state to history
+      window.history.pushState({ view: 'letter' }, '', '#letter');
+      showView('letter');
+      
+      // Play envelope sound
+      const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-page-turn-single-1101.mp3');
+      sound.play().catch(e => console.log("Sound effect failed:", e));
+      
+      confettiBurst();
+    }
+
+    function handleNo() {
+      const yesBtn = document.getElementById('yes');
+      const noBtn = document.getElementById('no');
+      const image = document.getElementById('changeable-image');
+      const message = document.getElementById('message');
+      
+      noCount++;
+      
+      yesBtn.style.transform = `scale(${1 + noCount*0.2})`;
+      noBtn.style.transform = `scale(${1 - noCount*0.2})`;
+      
+      if(noCount < angryImages.length) {
+        image.src = angryImages[noCount];
+        message.textContent = angryMessages[noCount];
+      }
+      
+      if(noCount >= angryImages.length - 1) {
+        noBtn.style.display = 'none';
+        yesBtn.textContent = "FINE I'LL OPEN IT! ❤️";
+        message.textContent = "I knew you'd say yes! 😊";
+      }
+    }
+
+    function checkPassword() {
+      if (passwordInput === CORRECT_PASSWORD) {
+        document.getElementById('password-screen').classList.add('hidden');
+        showLetter(); // Show the letter after correct password
+      } else {
+        document.getElementById('password-error').style.display = 'block';
+        passwordInput = '';
+        updatePasswordDots();
+        setTimeout(() => {
+          document.getElementById('password-error').style.display = 'none';
+        }, 1500);
+      }
+    }
+
+    function updatePasswordDots() {
+      const dots = document.querySelectorAll('.password-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('filled', index < passwordInput.length);
+      });
+    }
+
+    // Keypad Event Listeners
+    document.querySelectorAll('.keypad-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const number = this.getAttribute('data-number');
+        if (number && passwordInput.length < 4) {
+          passwordInput += number;
+          updatePasswordDots();
+          if (passwordInput.length === 4) checkPassword();
+        }
+      });
+    });
+
+    document.getElementById('backspace-btn').addEventListener('click', function() {
+      passwordInput = passwordInput.slice(0, -1);
+      updatePasswordDots();
+    });
+
+    // Try to load and play music when user interacts
+    function setupAudio() {
+      // This will be called after user interaction
+      bgMusic.play().catch(e => {
+        console.log("Audio playback failed:", e);
+      });
+    }
+
+    // Create background petals
+    function createPetals() {
+      const petals = ['🌸', '💮', '🏵️', '🌹', '🌺'];
+      for (let i = 0; i < 15; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        petal.style.animationDuration = `${Math.random() * 10 + 5}s`;
+        petal.style.animationDelay = `${Math.random() * 5}s`;
+        petal.style.opacity = Math.random() * 0.5 + 0.3;
+        document.getElementById('floating-elements').appendChild(petal);
+      }
+    }
+
+    function confettiBurst() {
+      const colors = ['#FF6B9E', '#FFD166', '#FFEEF2', '#FFB6C1'];
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = '-10px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = (Math.random() * 10 + 5) + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        document.getElementById('floating-elements').appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+
+    // Mouse heart trail 
+    document.addEventListener('mousemove', function(e) {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerHTML = '❤️';
+      heart.style.left = (e.clientX - 10) + 'px';
+      heart.style.top = (e.clientY - 10) + 'px';
+      heart.style.color = `hsl(${Math.random()*30 + 330}, 100%, 70%)`;
+      document.getElementById('floating-elements').appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

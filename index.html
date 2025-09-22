@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Happy Birthday Pookie!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Pacifico&display=swap');
+    
+    body {
+  background: url('https://i.ibb.co/Wvsr35MX/Pink-desktop-wallpaper-aesthetic.jpg') center/cover no-repeat fixed;
+  margin: 0;
+  min-height: 100vh;
+  /* Keep all other existing properties below */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Indie Flower', cursive;
+      text-align: center;
+      /* Removed overflow: hidden to enable scrolling */
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23FF6B9E" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'), auto;
+      padding-bottom: 50px; /* Added padding to ensure content isn't cut off */
+    }
+
+    body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 238, 242, 0.2); /* Lighter overlay for this image */
+  z-index: -1;
+}
+
+    .special-header {
+      font-family: 'Pacifico', cursive;
+      color: #FF6B9E;
+      font-size: 42px;
+      margin: 20px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      z-index: 10;
+      position: relative;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* MAIN BUTTON - Extra Special Style */
+    .main-btn {
+      background: linear-gradient(45deg, #FF6B9E, #FFB6C1, #FFD1DC);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: 
+        0 4px 0 #D94D7A,
+        0 0 20px rgba(255,107,158,0.5);
+      font-family: 'Pacifico', cursive;
+      transition: all 0.3s;
+      animation: pulse-glow 2s infinite;
+    }
+
+    .main-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 6px 0 #D94D7A,
+        0 0 30px rgba(255,107,158,0.8);
+      animation: none;
+    }
+
+    .main-btn:active {
+      transform: translateY(2px);
+      box-shadow: 
+        0 2px 0 #D94D7A,
+        0 0 15px rgba(255,107,158,0.5);
+    }
+
+    .sparkle {
+      display: inline-block;
+      animation: sparkle-twinkle 1.5s infinite;
+      margin: 0 8px;
+    }
+
+    .sparkle:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+
+    .main-btn::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ffffff" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
+      opacity: 0;
+      transition: all 0.5s;
+      z-index: -1;
+    }
+
+    .main-btn:hover::before {
+      animation: float-hearts 2s forwards;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(255,107,158,0.7); }
+    }
+
+    @keyframes sparkle-twinkle {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    @keyframes float-hearts {
+      0% { transform: translateX(-50%) translateY(0); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateX(-50%) translateY(-50px); opacity: 0; }
+    }
+
+    /* Wino Button */
+    .wino-pet-btn, .read-btn {
+      position: fixed;
+      right: 20px;
+      background: #FF9EBC;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 4px 0 #E86A92;
+      cursor: pointer;
+      transition: all 0.3s;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wino-pet-btn {
+      top: 20px;
+    }
+    .read-btn {
+      top: 90px;
+    }
+    .wino-pet-btn::before {
+      content: "🍓";
+      font-size: 20px;
+    }
+    .read-btn::before {
+      content: "💌";
+      font-size: 20px;
+    }
+    .wino-pet-btn:hover, .read-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 0 #E86A92;
+    }
+
+    .birthday-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      max-width: 500px;
+      position: relative;
+      z-index: 5;
+      margin-bottom: 40px; /* Added margin to ensure space at bottom */
+    }
+
+    h1 {
+      color: #FF6B9E;
+      margin-bottom: 10px;
+      font-size: 32px;
+      text-shadow: 2px 2px 0px rgba(255,182,193,0.3);
+      animation: bounce 2s infinite;
+    }
+
+    .scene {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    .kitty-gif {
+      position: absolute;
+      width: 220px;
+      bottom: 30px;
+      left: 40px;
+      z-index: 2;
+    }
+
+    .table {
+      position: absolute;
+      width: 180px;
+      height: 12px;
+      background: #D4A76A;
+      bottom: 10px;
+      left: 60px;
+      border-radius: 6px;
+      z-index: 1;
+      box-shadow: 0 3px 0 #B58C4E;
+    }
+
+    .cake-container {
+      position: absolute;
+      width: 120px;
+      height: 80px;
+      bottom: 22px;
+      left: 90px;
+      z-index: 3;
+    }
+
+    .cake {
+      width: 100%;
+      height: 60px;
+      background: linear-gradient(to bottom, #FF9EBC, #FFB6C1);
+      border-radius: 6px 6px 0 0;
+      box-shadow: inset 0 -8px 0 #E86A92;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .cake-top {
+      width: 80px;
+      height: 15px;
+      background: repeating-linear-gradient(
+        45deg,
+        #FFD1DC,
+        #FFD1DC 5px,
+        #FFEEF2 5px,
+        #FFEEF2 10px
+      );
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      border-radius: 3px;
+    }
+
+    .candle {
+      position: absolute;
+      width: 6px;
+      height: 25px;
+      background: #FFD166;
+      bottom: 60px;
+      z-index: 5;
+      border-radius: 2px;
+    }
+
+    .flame {
+      position: absolute;
+      width: 10px;
+      height: 18px;
+      background: #FF9E00;
+      border-radius: 50% 50% 20% 20%;
+      z-index: 6;
+      animation: flicker 0.8s infinite alternate;
+      box-shadow: 0 0 8px #FF9E00;
+      bottom: 85px;
+      left: -2px;
+    }
+
+    .blow-btn {
+      background: #FF6B9E;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 0 #D94D7A;
+      font-family: 'Indie Flower', cursive;
+      font-weight: bold;
+    }
+
+    .blow-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #D94D7A;
+    }
+
+    .reset-btn {
+      background: #FFD166;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 3px 0 #D4A76A;
+      font-family: 'Indie Flower', cursive;
+      display: none;
+    }
+
+    .reset-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 #D4A76A;
+    }
+
+    #wish-message {
+      font-size: 24px;
+      color: #FF6B9E;
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s;
+    }
+
+    #wish-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      opacity: 0;
+      z-index: 10;
+      background: rgba(255, 182, 193, 0.7);
+      transform: rotate(-45deg);
+      animation: float-up 3s ease-in forwards;
+    }
+
+    .heart:before, .heart:after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 182, 193, 0.7);
+      border-radius: 50%;
+    }
+
+    .heart:before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart:after {
+      top: 0;
+      left: 10px;
+    }
+
+    .balloon {
+      position: absolute;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: float 10s infinite ease-in;
+      z-index: -1;
+    }
+    
+    .balloon::after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: 100px;
+      background: rgba(0,0,0,0.2);
+      top: 80px;
+      left: 30px;
+    }
+
+    .footer-message {
+      margin-top: 30px;
+      color: #FF6B9E;
+      font-size: 18px;
+      text-shadow: 1px 1px 0px rgba(255,182,193,0.3);
+      animation: pulse 2s infinite;
+      margin-bottom: 40px; /* Added margin to ensure space */
+    }
+
+    @keyframes flicker {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    @keyframes float-up {
+      0% { transform: rotate(-45deg) translate(0, 0); opacity: 1; }
+      100% { transform: rotate(-45deg) translate(0, -200px); opacity: 0; }
+    }
+
+    @keyframes float-left {
+      0% { transform: rotate(-45deg) translate(0, 0); opacity: 1; }
+      100% { transform: rotate(-45deg) translate(-100px, -200px); opacity: 0; }
+    }
+
+    @keyframes float-right {
+      0% { transform: rotate(-45deg) translate(0, 0); opacity: 1; }
+      100% { transform: rotate(-45deg) translate(100px, -200px); opacity: 0; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px); opacity: 0; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <div class="special-header">
+    happy birthday to my best pookie, mr smartass 💖
+  </div>
+
+  <audio id="bgMusic" preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="blowSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+  </audio>
+  
+  <audio id="wishSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2593/2593-preview.mp3" type="audio/mpeg">
+  </audio>
+
+  <a href="pet.html" class="wino-pet-btn">Wino</a>
+
+  <div class="birthday-card">
+    <h1>Happy Birthday Pookie! 💝</h1>
+    
+    <!-- MAIN BUTTON ADDED HERE -->
+    <!-- Replace this button in your main HTML file -->
+<button class="main-btn" onclick="window.location.href='letter.html'">
+  <span class="sparkle">✨</span>
+  u made a wish? click here
+  <span class="sparkle">✨</span>
+</button>
+    <div class="scene">
+      <img class="kitty-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWplbWp4OHllb3pnb2VvNXlzdnU4cTR4dGkwNDUxdTZ3bGY1MHFyYyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kZqbBT64ECtjy/giphy.gif" alt="Dancing Hello Kitty">
+      
+      <div class="table"></div>
+      
+      <div class="cake-container">
+        <div class="cake">
+          <div class="cake-top"></div>
+          
+          <div class="candle" style="left:25px;"></div>
+          <div class="flame" style="left:23px;"></div>
+          
+          <div class="candle" style="left:45px;"></div>
+          <div class="flame" style="left:43px;"></div>
+          
+          <div class="candle" style="left:65px;"></div>
+          <div class="flame" style="left:63px;"></div>
+          
+          <div class="candle" style="left:85px;"></div>
+          <div class="flame" style="left:83px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="blow-btn" onclick="blowCandles()">BLOW THE CANDLES! 🎀</button>
+    <button class="reset-btn" onclick="resetCandles()">RE-LIGHT CANDLES 🕯️</button>
+    <p id="wish-message">✨ Wish granted smartass! ✨</p>
+  </div>
+
+  <div class="balloon" style="left:10%; background:#FF9EBC; animation-delay:0s;"></div>
+  <div class="balloon" style="left:30%; background:#FFD1DC; animation-delay:2s;"></div>
+  <div class="balloon" style="left:70%; background:#FF6B9E; animation-delay:4s;"></div>
+
+  <div class="footer-message">
+    Made with loooove for the best pookie alive!!!
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    const blowSound = document.getElementById('blowSound');
+    const wishSound = document.getElementById('wishSound');
+    
+    bgMusic.volume = 0.3;
+    blowSound.volume = 0.5;
+    wishSound.volume = 0.5;
+
+    document.addEventListener('click', function initAudio() {
+      bgMusic.play().catch(e => console.log("Audio play prevented"));
+      document.removeEventListener('click', initAudio);
+    });
+
+    function blowCandles() {
+      blowSound.currentTime = 0;
+      blowSound.play().catch(e => console.log("Blow sound error:", e));
+      
+      document.querySelectorAll('.flame').forEach(flame => {
+        flame.style.display = 'none';
+      });
+      
+      document.getElementById("wish-message").classList.add("show");
+      document.querySelector('.blow-btn').style.display = 'none';
+      document.querySelector('.reset-btn').style.display = 'inline-block';
+      
+      confetti({
+        particleCount: 500,
+        spread: 100,
+        origin: { y: 0.4 },
+        colors: ['#FF6B9E', '#FFB6C1', '#FFD1DC'],
+        shapes: ['circle', 'heart'],
+        disableForReducedMotion: true
+      });
+      
+      createHearts();
+    }
+
+    function resetCandles() {
+      document.querySelectorAll('.flame').forEach(flame => {
+        flame.style.display = 'block';
+      });
+      
+      document.getElementById("wish-message").classList.remove("show");
+      document.querySelector('.blow-btn').style.display = 'inline-block';
+      document.querySelector('.reset-btn').style.display = 'none';
+    }
+
+    function createHearts() {
+      for (let i = 0; i < 15; i++) {
+        createHeart('left');
+        createHeart('right');
+      }
+    }
+
+    function createHeart(side) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      
+      if (side === 'left') {
+        heart.style.left = Math.random() * 20 + '%';
+        heart.style.animationName = 'float-left';
+      } else {
+        heart.style.right = Math.random() * 20 + '%';
+        heart.style.animationName = 'float-right';
+      }
+      
+      heart.style.bottom = Math.random() * 20 + '%';
+      heart.style.animationDelay = (Math.random() * 0.5) + 's';
+      heart.style.animationDuration = (2 + Math.random()) + 's';
+      
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 3000);
+    }
+    
+  </script>
+</body>
+</html>
